@@ -1,24 +1,16 @@
-// This is your Prisma schema file,
-// learn more about it in the docs: https://pris.ly/d/prisma-schema
+//ESTE ARCHIVO, DEFINE LA Estructura de la Base de Datos
 
-// Get a free hosted Postgres database in seconds: `npx create-db`
-
-
-//generator client {
-  //provider = "prisma-client-js"
-  //output   = "../src/generated/prisma"
-//}
-
-//3 Cambio
+//Genera el codigo para conectarse a la Base de Datos
 generator client {
   provider = "prisma-client-js"
 }
 
+//Aqui se define a que Base de Datos conectarse
 datasource db {
   provider = "postgresql"
 }
 
-//4 ADD
+//MODEL: como se llaman las tablas y que columnas tienen
 model Task{
   id  Int @id @default(autoincrement())
   title String

@@ -1,7 +1,8 @@
-import { defineConfig } from "prisma/config";
-import dotenv from "dotenv";
+// Este archivo CARGA las variables de .env con dotenv y PASAR la URL a PRISMA
+import { defineConfig } from "prisma/config"; 
+import dotenv from "dotenv"; 
 
-dotenv.config();
+dotenv.config();  
 
 export default defineConfig({
   datasource: {
