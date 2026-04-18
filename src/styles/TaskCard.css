@@ -21,8 +21,12 @@
 }
 
 .task-card.completed{
+    opacity: 1 ;
+    background-color: #0d9488;
+}
+
+.task-card.completed .task-card-text{
+    color: #000;
+    font-weight: bold;
     text-decoration: line-through;
-    opacity: 0.5;
-    color: #000000;
-    background-color: #6cd18a;
 }

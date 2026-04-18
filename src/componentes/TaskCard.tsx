@@ -19,11 +19,14 @@ function TaskCard(props: TaskCardProps){
         <span className="task-card-text">{props.title}</span>
         <div  className="task-card-buttons">
             <button
-                className="btn-complete"
-                onClick={props.onToggleComplete}
-                title="Completar"                 
+                className={`btn-complete ${props.completed ? "btn-undo" : ""}`}
+                onClick={(e)=>{
+                    e.stopPropagation();
+                    props.onToggleComplete();
+                }}
+                title={props.completed ? "Deshacer" : "Completar"}                 
             >
-                ✔
+                {props.completed ? "↩" : "✔"}
             </button>
             <button
                 className="btn-delete"

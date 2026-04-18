@@ -103,18 +103,24 @@ function App(){
         });
   };
 
+  //ordenando las completadas al principio
+  const sortedTasks = [...tasks].sort((a, b)=>{
+    if(a.completed === b.completed) return 0;
+    return a.completed ? 1:-1;
+  });
+
   return(    
     <div className="container">
-      <div className="container">
+      {/* <div className="container"> */}
         <Header/>
         <TaskCounter tasks = {tasks} />
         <TaskInput onAddTask={addTask} />
         <TaskList 
-          tasks={tasks}
+          tasks={sortedTasks}
           onDeleteTask={handleDeleteTask}
           onToggleComplete={handleToggleComplete}
         />
-      </div>
+      {/* </div> */}
       <Footer />      
     </div>
   );

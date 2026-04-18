@@ -37,7 +37,6 @@ body{
 }
 
 .task-card.completed{
-  text-decoration:line-through;
   opacity: 0.5;
 }
 
@@ -189,6 +188,14 @@ body{
 
 .btn-complete:hover{
   background-color: #16a34a;
+}
+
+.btn-complete.btn-undo{
+  background-color: #0763f8;
+}
+
+.btn-complete.btn-undo:hover{
+  background-color: #0763f8;
 }
 
 .btn-delete{
