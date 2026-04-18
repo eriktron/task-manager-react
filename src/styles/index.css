@@ -19,10 +19,10 @@ body{
 .container {
   max-width: 600px;
   width: 90%;
-  margin: 0 auto;
+  margin: 2rem auto 0 auto;
   padding: 1rem;
-  background-color: rgba(255, 255, 255, 0.9);
-  min-height: 100vh;
+  background-color: rgba(255, 255, 255, 0.9); 
+  min-height: auto;
   display: flex;
   flex-direction: column;
   overflow: hidden;   /* Contiene el desbordamiento*/
@@ -136,45 +136,8 @@ body{
   width: 100%; /* no se sale del contenedor*/
 }
 
-.task-card{
-  cursor: default;
-  padding: 1rem 1.5 rem;
-  border: none;
-  /* border-radius: 12px; */
-  background-color: #fff;
-  list-style: none;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 0.75rem;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
-  transition: transform 0.15s, box-shadow 0.15s;
-  min-height: 80px;
-  word-break: break-word; /* evita desbordamiento de texto largo*/
-  min-width: 0; /* Permite que el grid comprima las tarjetas*/
-}
 
-.task-card:hover{
-  transform: translateY(-2px);
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.12);
-}
-
-.task-card.completed .task-card-text{
-  text-decoration: line-through;
-  opacity: 0.5;
-  color: #22c55e;
-}
-
-.task-card-text{
-  flex: 1;
-}
-
-.task-card-buttons{
-  display: flex;
-  gap: 0.5rem;
-}
-
-.btn-complete{
+/* .btn-complete{
   width: 32px;
   height: 32px;
   border: none;
@@ -184,7 +147,7 @@ body{
   font-size: 1rem;
   cursor: pointer;
   transition: background-color 0.15s;
-}
+} */
 
 .btn-complete:hover{
   background-color: #16a34a;
@@ -198,7 +161,7 @@ body{
   background-color: #0763f8;
 }
 
-.btn-delete{
+/* .btn-delete{
   width: 32px;
   height: 32px;
   border: none;
@@ -208,9 +171,9 @@ body{
   font-size: 1rem;
   cursor: pointer;
   transition: background-color 0.15s;  
-}
+} */
 
-.btn-delete:hover{
+/* .btn-delete:hover{
   background-color: #dc2626;
 }
-
+ */

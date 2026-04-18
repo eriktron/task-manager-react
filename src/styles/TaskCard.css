@@ -1,32 +1,110 @@
-.task-card{
-    cursor:pointer;
-    padding: 1rem 1.5rem;
-    border: none;
-    /* border-radius: 8px; */
-    /* margin-bottom: 0.75rem; */
-    background-color: #fff;
-    list-style: none;
-    display: flex;
-    align-items: center;
-    gap: 0.75rem;
-    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
-    transition: transform 0.15s, box-shadow 0.15s;
-    min-height: 80px;
+.task-card {
+  cursor: default;
+  padding: 1rem 1.5rem;
+  border: none ;
+  border-left: 4px solid #f59e0b;
+  background: linear-gradient(135deg, #fff7ed 0%, #fef2f2 100%);
+  list-style: none;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.75rem;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+  transition: transform 0.15s, box-shadow 0.15s, background 0.15s;
+  min-height: 80px;
+  word-break: break-word;
+  min-width: 0;
+  position: relative;
 }
 
-.task-card:hover{
-    /* background-color: #f9f9f9; */
-    transform: translateY(-2px);
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.12);
+.task-card:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.12);
+  background: #040507;
 }
 
-.task-card.completed{
-    opacity: 1 ;
-    background-color: #0d9488;
+.task-card:hover .task-card-text {
+  color: #ffffff;
+  
 }
 
-.task-card.completed .task-card-text{
-    color: #000;
-    font-weight: bold;
-    text-decoration: line-through;
+.task-card.completed {
+  opacity: 0.8;
+  background: #0d9488;
+  border-left: 4px solid #0f766e;
+}
+
+.task-card.completed .task-card-text {
+  color: #000000;
+  font-weight: bold;
+  text-decoration: line-through;
+}
+
+.task-card-text {
+  flex: 1;
+}
+
+.task-card-buttons {
+  display: flex;
+  gap: 0.5rem;
+}
+
+.task-card button {
+  text-decoration: none;
+}
+
+.btn-complete {
+  width: 32px;
+  height: 32px;
+  border: 2px solid #22c55e;
+  border-radius: 0%;
+  background-color: transparent;
+  color: #22c55e;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: background-color 0.15s;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0;
+}
+
+.btn-complete:hover {
+  background-color: #22c55e;
+  color: #ffff;
+}
+
+.btn-complete.btn-undo {
+    border: 2px solid #000000;
+  background-color: transparent;
+  color: #000000;
+}
+
+.btn-complete.btn-undo:hover {
+  background-color: #000000;
+  color: #ffff;
+}
+
+.btn-delete {
+  width: 15px;
+  height: 15px;
+  border: none;
+  border-radius: 0%;
+  background-color: #eb4444;
+  color: #ffffff;
+  font-size: 0.65rem;
+  cursor: pointer;
+  transition: background-color 0.15s;
+  position: absolute;
+  top: 6px;
+  right: 6px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  line-height: 0;
+  padding: 0;
+}
+
+.btn-delete:hover {
+  background-color: #f10808;
 }
