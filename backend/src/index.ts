@@ -5,6 +5,8 @@ import cors from "cors";
 require ("dotenv").config();
 
 
+
+
 //importamos prisma cliente
 const {PrismaClient} = require("@prisma/client");
 const {PrismaPg} = require("@prisma/adapter-pg");
@@ -22,7 +24,8 @@ const prisma = new PrismaClient({adapter});
 const app = express();
 app.use(cors());
 app.use(express.json());
-const PORT = 3000;
+//const PORT = process.env.PORT || 3000;
+const PORT: number = process.env.PORT ? parseInt(process.env.PORT) : 3000;
 
 //Middleware  de express, que parsea solicitudes http de body a JSON
 app.use(express.json());
@@ -101,6 +104,6 @@ app.put("/tasks/:id", async (req: any, res: any) =>{
 });
 
 //---INICIO DEL SERVIDOR
-app.listen(PORT, ()=>{
+app.listen(PORT, '0.0.0.0', ()=>{
     console.log(`Server running on port ${PORT}`);
 });
