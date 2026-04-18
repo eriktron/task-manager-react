@@ -22,7 +22,7 @@ function App(){
     fetch("http://localhost:3000/tasks")
       .then((response) => response.json())
       .then((data)=>{
-        setTasks(data); //guardamos las tareas del servidor en nuesro estado
+        setTasks(data); //guardamos las tareas del servidor en nuestro estado
       })
       .catch((error)=>{
         console.error("Error al obtener tareas: ", error);
@@ -33,7 +33,7 @@ function App(){
     setTasks([...tasks, {id: Date.now(), title:text, completed:false}]);
   };
 
-  //Funcion PUT, envia al BEnd cambio de un tarea
+  //Funcion PUT, envia al BackEnd cambio de un tarea
   const handleToggleComplete = (id: number) => {
     //buscamos la tarea actual
     const taskToUpdate = tasks.find(t => t.id === id);
@@ -60,7 +60,7 @@ function App(){
       });
   };
 
-  //Funcion Eliminar, borra la tarea del servidor y quita de la pantalla
+  //Funcion ELIMINAR, borra la tarea del servidor y quita de la pantalla
   const handleDeleteTask = (id:number)=>{
   fetch(`http://localhost:3000/tasks/${id}`, {
     method: "DELETE",
