@@ -19,7 +19,7 @@ function App(){
   //se ejecuta al cargar por primera vez
   useEffect(()=>{
     //pedimos tareas al backend
-    fetch("http://localhost:3000/tasks")
+    fetch("import.meta.env.https://task-manager-react-jt4f.onrender.com")
       .then((response) => response.json())
       .then((data)=>{
         setTasks(data); //guardamos las tareas del servidor en nuestro estado
@@ -40,7 +40,7 @@ function App(){
     if(!taskToUpdate) return;
 
     // llamada al backend
-    fetch(`http://localhost:3000/tasks/${id}`, {
+    fetch(`import.meta.env.https://task-manager-react-jt4f.onrender.com/tasks/${id}`, {
       method: "PUT",
       headers:{
         "Content-Type": "application/json",
@@ -62,7 +62,7 @@ function App(){
 
   //Funcion ELIMINAR, borra la tarea del servidor y quita de la pantalla
   const handleDeleteTask = (id:number)=>{
-  fetch(`http://localhost:3000/tasks/${id}`, {
+  fetch(`import.meta.env.https://task-manager-react-jt4f.onrender.com/tasks/${id}`, {
     method: "DELETE",
   })
     .then((Response) => {
@@ -86,7 +86,7 @@ function App(){
         completed: false,
       };
 
-      fetch("http://localhost:3000/tasks", {
+      fetch("import.meta.env.https://task-manager-react-jt4f.onrender.com/tasks", {
         method: "POST",
         headers:{"Content-Type":"application/json"},
         body: JSON.stringify(newTask),
