@@ -1,16 +1,39 @@
-# React + Vite
+# Task Manager ProMax - Erik Contreras
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+Aplicación de manejo, registro, control de tareas.
 
-Currently, two official plugins are available:
+## Stack de Tecnologias
+- Frontend: React + TypeScript + Vite
+- Backend: Node.js + Express + TypeScript
+- Base de Datos: PostgreSQL + Prisma ORM
+- Desplegado en: Vercel (Frontend) + Render (Backend - PostgreSQL)
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Oxc](https://oxc.rs)
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/)
+## Prerequisitos
+- Node.js (v24.14.1 o Actual)
+- npm (v11.11.0)
+- Visual Studio Code
+- PostgreSQL (v9.24)
+- Github
 
-## React Compiler
+## Despliegue
+Base de datos - Render
+1.- Crear cuenta en render.com
+2.- Crear Nuevo Postgres
+3.- Copiar DATABASE_URL
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+Configurar Prisma
+1.- En archivo .env
+    Configurar DATABASE_URL = url_obtenida_de_render
+2.- Ejecutar en consola carpeta Backend: 
+    npx prisma migrate deploy
 
-## Expanding the ESLint configuration
+Backend - Render
+1.- Crear nuevo: WEB Service
+2.- Conectar repositorio de github
+3.- En render configurar:
+    Build: npm install
+    Start: npm run dev
+4
 
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+
+
