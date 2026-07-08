@@ -1,6 +1,8 @@
-# Task Manager ProMax - Erik Contreras
+# [Task Manager ProMax - Erik Contreras]
+ 
+[Aplicación de manejo, registro, control de tareas.]
 
-Aplicación de manejo, registro, control de tareas.
+<!-- BADGE_CI -->
 
 ## Stack de Tecnologias
 - Frontend: React + TypeScript + Vite
@@ -15,18 +17,20 @@ Aplicación de manejo, registro, control de tareas.
 - PostgreSQL (v9.24)
 - Github
 
-## Despliegue
+## Despliegue INSTALACION LOCAL
 Base de datos - Render
 1.- Crear cuenta en render.com
 2.- Crear Nuevo Postgres
 3.- Copiar DATABASE_URL
 
+### Variables de entorno
 Configurar Prisma
 1.- En archivo .env
     Configurar DATABASE_URL = url_obtenida_de_render
 2.- Ejecutar en consola carpeta Backend: 
     npx prisma migrate deploy
 
+## 📜 Comandos disponibles
 Backend - Render
 1.- Crear nuevo: WEB Service
 2.- Conectar repositorio de github
@@ -34,6 +38,9 @@ Backend - Render
     Build: npm install
     Start: npm run dev
 4
+## 🗄️ Base de datos
+ 
+PostgreSQL con migraciones y seeds gestionados con Prisma (ver Módulo 2).
 
 
 
