@@ -1,0 +1,51 @@
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+jobs:
+  frontend:
+    name: Frontend - Lint & Build
+    runs-on: ubuntu-latest
+    # Eliminamos el "working-directory: ./frontend" porque tu frontend está en la raíz
+    steps:
+      - uses: actions/checkout@v4
+      
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: 'npm'
+          # Busca el package-lock.json en la raíz
+          cache-dependency-path: package-lock.json
+
+      - run: npm ci
+      - run: npm run lint --if-present
+      - run: npm run build
+
+  backend:
+    name: Backend - Lint & Build
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: ./backend # Esto se queda igual porque tu backend sí está en /backend
+    steps:
+      - uses: actions/checkout@v4
+      
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: 'npm'
+          cache-dependency-path: backend/package-lock.json
+
+      - run: npm ci
+      
+      # --- PASO CRUCIAL PARA PRISMA ---
+      # Si no agregamos esto, tu backend fallará al intentar compilar o validar el linter
+      - name: Generate Prisma Client
+        run: npx prisma generate
+
+      - run: npm run lint --if-present
+      - run: npm run build --if-present
