@@ -40,12 +40,5 @@ Backend - Render
 4
 ## 🗄️ Base de datos
  
-PostgreSQL con migraciones y seeds gestionados con Prisma (ver Módulo 2).
-
-Test de configuracion proteccion de rama
-
-2do test prueba de proteccion rama main
-
-3er intento de prueba de proteccion de rama main
-
+PostgreSQL con migraciones y seeds gestionados con Prisma
 
