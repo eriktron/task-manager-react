@@ -2,7 +2,7 @@
  
 [Aplicación de manejo, registro, control de tareas.]
 
-<!-- BADGE_CI -->
+[![CI](https://github.com/eriktron/task-manager-react/actions/workflows/ci.yml/badge.svg?branch=main)](https://github.com/eriktron/task-manager-react/actions/workflows/ci.yml)
 
 ## Stack de Tecnologias
 - Frontend: React + TypeScript + Vite
