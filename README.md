@@ -44,3 +44,6 @@ PostgreSQL con migraciones y seeds gestionados con Prisma (ver Módulo 2).
 
 Test de configuracion proteccion de rama
 
+2do test prueba de proteccion rama main
+
+
