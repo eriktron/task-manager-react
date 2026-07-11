@@ -59,9 +59,17 @@ app.get("/tasks", async (req: any, res: any)=>{
 //POST Recibe tarea y añade a la lista
 app.post("/tasks", async (req: any, res: any)=>{
     try {
+        
+        const {title} = req.body;
+        if(!title|| !title.trim()){
+            return res.status(400).json({
+                message:"El titulo no puede ser vacio"
+            });
+        }
+
         const newTask = await prisma.task.create({
             data: {
-                title: req.body.title,
+                title: title.trim(),
                 completed: false,
             },
         });
@@ -103,7 +111,13 @@ app.put("/tasks/:id", async (req: any, res: any) =>{
     }
 });
 
-//---INICIO DEL SERVIDOR
-app.listen(PORT, '0.0.0.0', ()=>{
-    console.log(`Server running on port ${PORT}`);
-});
+// --- INICIO DEL SERVIDOR
+// Evitamos que levante el puerto real si estamos ejecutando pruebas con Vitest
+if (process.env.NODE_ENV !== 'test') {
+    app.listen(PORT, '0.0.0.0', () => {
+        console.log(`Server running on port ${PORT}`);
+    });
+}
+
+// 👈 CLAVE: Exportamos app para que supertest lo pueda probar de forma aislada
+export default app;
