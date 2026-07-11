@@ -6,7 +6,7 @@ import { cleanup } from '@testing-library/react'
 // Le inyectamos los métodos de validación a Vitest
 expect.extend(matchers)
 
-//AGREGA ESTO: Limpia el DOM simulado automáticamente antes de cada prueba
+//limpia el DOM simulado automáticamente antes de cada prueba
 beforeEach(() => {
   cleanup()
 })
