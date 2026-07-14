@@ -93,11 +93,13 @@ jobs:
           cd backend
           npm run dev &
         env:
-          # Usamos una base de datos SQLite temporal en memoria o local para la prueba del CI
-          # para que no intente conectarse a tu PostgreSQL real de Render
           DATABASE_URL: "file:./dev.db" 
           PORT: 3000
           
+      # 👇 NUEVO PASO CRUCIAL: Esperar a que el backend local responda de verdad
+      - name: Esperar a que el backend esté listo
+        run: npx wait-on http://localhost:3000/tasks --timeout 15000
+
       - name: Instalar Navegador Chromium de Playwright
         run: npx playwright install --with-deps chromium
         
