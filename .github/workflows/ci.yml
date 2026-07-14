@@ -79,11 +79,27 @@ jobs:
           node-version: '20'
           cache: 'npm'
           
-      - name: Instalar dependencias del proyecto
+      - name: Instalar dependencias del Proyecto (Raíz/Frontend)
         run: npm ci
-        
+
+      - name: Instalar dependencias del Backend
+        run: |
+          cd backend
+          npm ci
+          npx prisma generate
+
+      - name: Levantar Backend en segundo plano
+        run: |
+          cd backend
+          npm run dev &
+        env:
+          # Usamos una base de datos SQLite temporal en memoria o local para la prueba del CI
+          # para que no intente conectarse a tu PostgreSQL real de Render
+          DATABASE_URL: "file:./dev.db" 
+          PORT: 3000
+          
       - name: Instalar Navegador Chromium de Playwright
         run: npx playwright install --with-deps chromium
         
-      - name: Ejecutar Pruebas E2E con Servidor Local
+      - name: Ejecutar Pruebas E2E con Servidores Corriendo
         run: npx playwright test
