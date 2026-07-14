@@ -49,3 +49,41 @@ jobs:
 
       - run: npm run lint --if-present
       - run: npm run build --if-present
+  pruebas:
+    name: Pruebas unitarias y cobertura
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      
+      - name: Configurar Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: 'npm'
+          
+      - name: Instalar dependencias del proyecto
+        run: npm ci
+        
+      - name: Ejecutar pruebas y validar Cobertura (Quality Gate)
+        run: npx vitest run --coverage
+
+  e2e:
+    name: Pruebas E2E (Playwright)
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      
+      - name: Configurar Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: 'npm'
+          
+      - name: Instalar dependencias del proyecto
+        run: npm ci
+        
+      - name: Instalar Navegador Chromium de Playwright
+        run: npx playwright install --with-deps chromium
+        
+      - name: Ejecutar Pruebas E2E con Servidor Local
+        run: npx playwright test
