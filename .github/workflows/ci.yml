@@ -86,19 +86,27 @@ jobs:
         run: |
           cd backend
           npm ci
-          npx prisma generate
 
+      # 👇 PASO CLAVE: Crear físicamente la base de datos temporal antes de arrancar el servidor
+      - name: Inicializar Base de Datos Temporal de Pruebas
+        run: |
+          cd backend
+          npx prisma db push
+        env:
+          DATABASE_URL: "file:./dev.db"
+
+      # Arrancamos el servidor usando directamente ts-node / node para evitar bloqueos
       - name: Levantar Backend en segundo plano
         run: |
           cd backend
-          npm run dev &
+          npx ts-node src/index.ts &
         env:
           DATABASE_URL: "file:./dev.db" 
           PORT: 3000
           
-      # 👇 NUEVO PASO CRUCIAL: Esperar a que el backend local responda de verdad
+      # Ahora sí responderá al instante porque la base de datos ya está creada y lista
       - name: Esperar a que el backend esté listo
-        run: npx wait-on http://localhost:3000/tasks --timeout 15000
+        run: npx wait-on http://localhost:3000/tasks --timeout 20000
 
       - name: Instalar Navegador Chromium de Playwright
         run: npx playwright install --with-deps chromium
