@@ -71,7 +71,7 @@ jobs:
     name: Pruebas E2E (Playwright)
     runs-on: ubuntu-latest
     
-    # 👇 LEVANTAMOS UN POSTGRESQL REAL EN SEGUNDO PLANO
+    # LEVANTAMOS UN POSTGRESQL REAL EN SEGUNDO PLANO
     services:
       postgres:
         image: postgres:15
@@ -81,7 +81,6 @@ jobs:
           POSTGRES_PASSWORD: postgres_password
         ports:
           - 5432:5432
-        # Esperamos a que Postgres esté listo antes de arrancar los pasos del job
         options: >-
           --health-cmd pg_isready
           --health-interval 10s
@@ -97,36 +96,29 @@ jobs:
           node-version: '20'
           cache: 'npm'
           
-      - name: Instalar dependencias del Proyecto (Raíz/Frontend)
-        run: npm ci
+      - name: Instalar dependencias de todo el proyecto
+        run: |
+          npm ci
+          cd backend && npm ci
 
-      - name: Instalar dependencias del Backend
+      - name: Generar Cliente de Prisma
         run: |
           cd backend
-          npm ci
+          npx prisma generate
 
-      # 👇 Sincronizamos las tablas de Prisma con la base de datos PostgreSQL de arriba
-      - name: Inicializar Base de Datos Postgres de Pruebas
+      - name: Sincronizar Base de Datos Postgres de Pruebas
         run: |
           cd backend
           npx prisma db push
         env:
           DATABASE_URL: "postgresql://postgres:postgres_password@localhost:5432/task_manager_test?schema=public"
 
-      # Levantar el backend apuntando a la base de datos Postgres del pipeline
-      - name: Levantar Backend en segundo plano
-        run: |
-          cd backend
-          npx ts-node src/index.ts &
-        env:
-          DATABASE_URL: "postgresql://postgres:postgres_password@localhost:5432/task_manager_test?schema=public"
-          PORT: 3000
-          
-      - name: Esperar a que el backend esté listo
-        run: npx wait-on http://localhost:3000/tasks --timeout 20000
-
-      - name: Instalar Navegador Chromium de Playwright
+      - name: Instalar Navegadores de Playwright
         run: npx playwright install --with-deps chromium
         
-      - name: Ejecutar Pruebas E2E con Servidores Corriendo
+      - name: Ejecutar Pruebas E2E (Playwright se encarga de iniciar el servidor)
         run: npx playwright test
+        env:
+          # Pasamos las variables de entorno necesarias para cuando Playwright invoque el backend
+          DATABASE_URL: "postgresql://postgres:postgres_password@localhost:5432/task_manager_test?schema=public"
+          PORT: 3000
