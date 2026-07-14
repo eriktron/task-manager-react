@@ -49,3 +49,79 @@ jobs:
 
       - run: npm run lint --if-present
       - run: npm run build --if-present
+  pruebas:
+    name: Pruebas unitarias y cobertura
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      
+      - name: Configurar Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: 'npm'
+          
+      - name: Instalar dependencias del proyecto
+        run: npm ci
+        
+      - name: Ejecutar pruebas y validar Cobertura (Quality Gate)
+        run: npx vitest run --coverage
+
+  e2e:
+    name: Pruebas E2E (Playwright)
+    runs-on: ubuntu-latest
+    
+    # LEVANTAMOS UN POSTGRESQL REAL EN SEGUNDO PLANO
+    services:
+      postgres:
+        image: postgres:15
+        env:
+          POSTGRES_DB: task_manager_test
+          POSTGRES_USER: postgres
+          POSTGRES_PASSWORD: postgres_password
+        ports:
+          - 5432:5432
+        options: >-
+          --health-cmd pg_isready
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 5
+
+    steps:
+      - uses: actions/checkout@v4
+      
+      - name: Configurar Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: 'npm'
+          
+      - name: Instalar dependencias de todo el proyecto
+        run: |
+          npm ci
+          cd backend && npm ci
+
+      - name: Generar Cliente de Prisma
+        run: |
+          cd backend
+          npx prisma generate
+
+      - name: Sincronizar Base de Datos Postgres de Pruebas
+        run: |
+          cd backend
+          npx prisma db push
+        env:
+          DATABASE_URL: "postgresql://postgres:postgres_password@localhost:5432/task_manager_test?schema=public"
+
+      - name: Instalar Navegadores de Playwright
+        run: npx playwright install --with-deps chromium
+        
+      - name: Ejecutar Pruebas E2E (Playwright se encarga de iniciar el servidor)
+        run: npx playwright test
+        env:
+          # Variables de entorno para el Backend
+          DATABASE_URL: "postgresql://postgres:postgres_password@localhost:5432/task_manager_test?schema=public"
+          PORT: 3000
+          # 👇 VARIABLE PARA EL FRONTEND: Apunta al backend local de pruebas
+          # (Cambia VITE_API_URL por el nombre exacto de la variable que uses en tu .env.local si es diferente)
+          VITE_API_URL: "http://localhost:3000"
