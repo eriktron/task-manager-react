@@ -119,6 +119,9 @@ jobs:
       - name: Ejecutar Pruebas E2E (Playwright se encarga de iniciar el servidor)
         run: npx playwright test
         env:
-          # Pasamos las variables de entorno necesarias para cuando Playwright invoque el backend
+          # Variables de entorno para el Backend
           DATABASE_URL: "postgresql://postgres:postgres_password@localhost:5432/task_manager_test?schema=public"
           PORT: 3000
+          # 👇 VARIABLE PARA EL FRONTEND: Apunta al backend local de pruebas
+          # (Cambia VITE_API_URL por el nombre exacto de la variable que uses en tu .env.local si es diferente)
+          VITE_API_URL: "http://localhost:3000"
