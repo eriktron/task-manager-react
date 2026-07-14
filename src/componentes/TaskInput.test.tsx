@@ -1,4 +1,4 @@
-/* // @vitest-environment jsdom
+// @vitest-environment jsdom
 // src/components/TaskInput.test.tsx
 import { render, screen } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
@@ -34,4 +34,4 @@ describe('TaskInput', () => {
     // Assert
     expect(onAddTaskMock).not.toHaveBeenCalled()
   })
-}) */
+})
