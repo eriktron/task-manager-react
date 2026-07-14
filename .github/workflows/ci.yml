@@ -70,6 +70,24 @@ jobs:
   e2e:
     name: Pruebas E2E (Playwright)
     runs-on: ubuntu-latest
+    
+    # 👇 LEVANTAMOS UN POSTGRESQL REAL EN SEGUNDO PLANO
+    services:
+      postgres:
+        image: postgres:15
+        env:
+          POSTGRES_DB: task_manager_test
+          POSTGRES_USER: postgres
+          POSTGRES_PASSWORD: postgres_password
+        ports:
+          - 5432:5432
+        # Esperamos a que Postgres esté listo antes de arrancar los pasos del job
+        options: >-
+          --health-cmd pg_isready
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 5
+
     steps:
       - uses: actions/checkout@v4
       
@@ -87,24 +105,23 @@ jobs:
           cd backend
           npm ci
 
-      # 👇 PASO CLAVE: Crear físicamente la base de datos temporal antes de arrancar el servidor
-      - name: Inicializar Base de Datos Temporal de Pruebas
+      # 👇 Sincronizamos las tablas de Prisma con la base de datos PostgreSQL de arriba
+      - name: Inicializar Base de Datos Postgres de Pruebas
         run: |
           cd backend
           npx prisma db push
         env:
-          DATABASE_URL: "file:./dev.db"
+          DATABASE_URL: "postgresql://postgres:postgres_password@localhost:5432/task_manager_test?schema=public"
 
-      # Arrancamos el servidor usando directamente ts-node / node para evitar bloqueos
+      # Levantar el backend apuntando a la base de datos Postgres del pipeline
       - name: Levantar Backend en segundo plano
         run: |
           cd backend
           npx ts-node src/index.ts &
         env:
-          DATABASE_URL: "file:./dev.db" 
+          DATABASE_URL: "postgresql://postgres:postgres_password@localhost:5432/task_manager_test?schema=public"
           PORT: 3000
           
-      # Ahora sí responderá al instante porque la base de datos ya está creada y lista
       - name: Esperar a que el backend esté listo
         run: npx wait-on http://localhost:3000/tasks --timeout 20000
 
