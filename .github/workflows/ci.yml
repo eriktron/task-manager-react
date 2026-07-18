@@ -127,3 +127,46 @@ jobs:
           # 👇 VARIABLE PARA EL FRONTEND: Apunta al backend local de pruebas
           # (Cambia VITE_API_URL por el nombre exacto de la variable que uses en tu .env.local si es diferente)
           VITE_API_URL: "http://localhost:3000"
+
+  migraciones:
+    name: Migraciones y Seeds
+    runs-on: ubuntu-latest
+    
+    # 2.1: El servicio de PostgreSQL efímero (temporal)
+    services:
+      postgres:
+        image: postgres:16-alpine
+        env:
+          POSTGRES_USER: testuser
+          POSTGRES_PASSWORD: testpass
+          POSTGRES_DB: testdb
+        ports:
+          - 5432:5432
+        options: >-
+          --health-cmd pg_isready
+          --health-timeout 5s
+          --health-interval 5s
+          --health-retries 5
+
+    defaults:
+      run:
+        working-directory: ./backend
+
+    env:
+      DATABASE_URL: postgresql://testuser:testpass@localhost:5432/testdb
+
+    # 2.2: Los pasos secuenciales de la línea de ensamblaje
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: 'npm'
+          cache-dependency-path: ./backend/package-lock.json # Apunta al lock del backend
+
+      - name: Instalar dependencias del Backend
+        run: npm ci
+
+      - name: Aplicar migraciones de Prisma
+        run: npx prisma migrate deploy 
