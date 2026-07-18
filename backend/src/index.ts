@@ -4,8 +4,7 @@ import cors from "cors";
 
 require ("dotenv").config();
 
-
-
+const apiKey = 'sk_test_FALSO123456789' // TODO: mover a variable de entorno
 
 //importamos prisma cliente
 const {PrismaClient} = require("@prisma/client");
@@ -118,6 +117,7 @@ if (process.env.NODE_ENV !== 'test') {
         console.log(`Server running on port ${PORT}`);
     });
 }
+
 
 // 👈 CLAVE: Exportamos app para que supertest lo pueda probar de forma aislada
 export default app;
