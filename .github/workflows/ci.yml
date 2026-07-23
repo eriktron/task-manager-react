@@ -5,6 +5,12 @@ on:
     branches: [main]
   pull_request:
     branches: [main]
+  workflow_dispatch: # Habilita la ejecución manual desde la pestaña Actions en GitHub
+    inputs:
+      confirmacion:
+        description: 'Escribe DEPLOY para confirmar el despliegue a produccion'
+        required: true
+        default: ''
 
 jobs:
   frontend:
@@ -186,5 +192,22 @@ jobs:
 
       - name: Desplegar a Railway (staging)
         run: railway up --service ${{ secrets.RAILWAY_SERVICE_ID }} --environment staging
+        env:
+          RAILWAY_TOKEN: ${{ secrets.RAILWAY_TOKEN }}
+
+  deploy-produccion:
+    name: Deploy a Producción (manual)
+    # Este job SOLO se ejecuta si el disparador fue manual Y se escribió "DEPLOY"
+    if: github.event_name == 'workflow_dispatch' && github.event.inputs.confirmacion == 'DEPLOY'
+    runs-on: ubuntu-latest
+    steps:
+      - name: Revisar el código
+        uses: actions/checkout@v4
+
+      - name: Instalar Railway CLI
+        run: npm install -g @railway/cli
+
+      - name: Desplegar a Railway (produccion)
+        run: railway up --service selfless-flow --environment production
         env:
           RAILWAY_TOKEN: ${{ secrets.RAILWAY_TOKEN }}
