@@ -170,3 +170,21 @@ jobs:
 
       - name: Aplicar migraciones de Prisma
         run: npx prisma migrate deploy 
+
+  deploy-staging:
+    name: Deploy a Staging
+    # Asegúrate de que los nombres en 'needs' correspondan a los jobs reales de tu pipeline
+    needs: [frontend, backend, pruebas, e2e, migraciones]
+    if: github.ref == 'refs/heads/main' && github.event_name == 'push'
+    runs-on: ubuntu-latest
+    steps:
+      - name: Revisar el código
+        uses: actions/checkout@v4
+
+      - name: Instalar Railway CLI
+        run: npm install -g @railway/cli
+
+      - name: Desplegar a Railway (staging)
+        run: railway up --service backend --environment staging
+        env:
+          RAILWAY_TOKEN: ${{ secrets.RAILWAY_TOKEN }}
