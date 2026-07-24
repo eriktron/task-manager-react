@@ -190,9 +190,7 @@ jobs:
         run: npm install -g @railway/cli
 
       - name: Debug Railway context
-        run: |
-          railway whoami
-          railway status --json
+        run: railway status --json
         env:
           RAILWAY_TOKEN: ${{ secrets.RAILWAY_TOKEN }}
 
@@ -217,9 +215,7 @@ jobs:
         run: npm install -g @railway/cli
       
       - name: Debug Railway context
-        run: |
-          railway whoami
-          railway status --json
+        run: railway status --json
         env:
           RAILWAY_TOKEN: ${{ secrets.RAILWAY_TOKEN }}
 
