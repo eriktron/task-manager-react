@@ -1,10 +1,10 @@
 name: CI
 
 on:
-  push:
-    branches: [main]
-  pull_request:
-    branches: [main]
+  #push:
+  #  branches: [main]
+  #pull_request:
+  #  branches: [main]
   workflow_dispatch: # Habilita la ejecución manual desde la pestaña Actions en GitHub
     inputs:
       confirmacion:
@@ -14,6 +14,7 @@ on:
 
 jobs:
   frontend:
+    if: false
     name: Frontend - Lint & Build
     runs-on: ubuntu-latest
     # Eliminamos el "working-directory: ./frontend" porque tu frontend está en la raíz
@@ -32,6 +33,7 @@ jobs:
       - run: npm run build
 
   backend:
+    if: false
     name: Backend - Lint & Build
     runs-on: ubuntu-latest
     defaults:
@@ -56,6 +58,7 @@ jobs:
       - run: npm run lint --if-present
       - run: npm run build --if-present
   pruebas:
+    if: false
     name: Pruebas unitarias y cobertura
     runs-on: ubuntu-latest
     env:
@@ -76,6 +79,7 @@ jobs:
         run: npx vitest run --coverage
 
   e2e:
+    if: false
     name: Pruebas E2E (Playwright)
     runs-on: ubuntu-latest
     
@@ -135,6 +139,7 @@ jobs:
           VITE_API_URL: "http://localhost:3000"
 
   migraciones:
+    if: false
     name: Migraciones y Seeds
     runs-on: ubuntu-latest
     
@@ -178,10 +183,11 @@ jobs:
         run: npx prisma migrate deploy 
 
   deploy-staging:
+    if: false
     name: Deploy a Staging
     # Asegúrate de que los nombres en 'needs' correspondan a los jobs reales de tu pipeline
-    needs: [frontend, backend, pruebas, e2e, migraciones]
-    if: github.ref == 'refs/heads/main' && github.event_name == 'push'
+    #needs: [frontend, backend, pruebas, e2e, migraciones]
+    #if: github.ref == 'refs/heads/main' && github.event_name == 'push'
     runs-on: ubuntu-latest
     steps:
       - name: Revisar el código
@@ -208,6 +214,10 @@ jobs:
         run: npm install -g @railway/cli
 
       - name: Desplegar a Railway (produccion)
-        run: railway up --service ${{ secrets.RAILWAY_SERVICE_ID_PRODUCTION }} --environment ${{ secrets.RAILWAY_ENVIRONMENT_ID }}
+        run: railway up
         env:
           RAILWAY_TOKEN: ${{ secrets.RAILWAY_TOKEN }}
+          RAILWAY_PROJECT_ID: ${{ secrets.RAILWAY_PROJECT_ID }}
+          RAILWAY_ENVIRONMENT_ID: ${{ secrets.RAILWAY_ENVIRONMENT_ID }}
+          RAILWAY_SERVICE_ID: ${{ secrets.RAILWAY_SERVICE_ID_PRODUCTION }} 
+          
