@@ -30,6 +30,10 @@ const PORT: number = process.env.PORT ? parseInt(process.env.PORT) : 3000;
 //Middleware  de express, que parsea solicitudes http de body a JSON
 app.use(express.json());
 
+app.get('/health', (req, res) => {
+  res.status(200).json({ status: 'ok' });
+});
+
 //---DEFINICION DE DATOS:
 //Def de estructura para TypeScript
 type Task = {
@@ -114,6 +118,8 @@ app.put("/tasks/:id", async (req: any, res: any) =>{
 // --- INICIO DEL SERVIDOR
 // Evitamos que levante el puerto real si estamos ejecutando pruebas con Vitest
 if (process.env.NODE_ENV !== 'test') {
+    // ERROR INTENCIONAL PARA SIMULACRO DE CAOS
+    throw new Error('Fallo simulado en el arranque del servidor');  
     app.listen(PORT, '0.0.0.0', () => {
         console.log(`Server running on port ${PORT}`);
     });
