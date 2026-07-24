@@ -208,6 +208,6 @@ jobs:
         run: npm install -g @railway/cli
 
       - name: Desplegar a Railway (produccion)
-        run: railway up --service selfless-flow --environment production
+        run: railway up --service ${{ secrets.RAILWAY_SERVICE_ID_PRODUCTION }} --environment production
         env:
           RAILWAY_TOKEN: ${{ secrets.RAILWAY_TOKEN }}
