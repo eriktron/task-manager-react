@@ -1,10 +1,10 @@
 name: CI
 
 on:
-  #push:
-  #  branches: [main]
-  #pull_request:
-  #  branches: [main]
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
   workflow_dispatch: # Habilita la ejecución manual desde la pestaña Actions en GitHub
     inputs:
       confirmacion:
@@ -14,7 +14,6 @@ on:
 
 jobs:
   frontend:
-    if: false
     name: Frontend - Lint & Build
     runs-on: ubuntu-latest
     # Eliminamos el "working-directory: ./frontend" porque tu frontend está en la raíz
@@ -33,7 +32,6 @@ jobs:
       - run: npm run build
 
   backend:
-    if: false
     name: Backend - Lint & Build
     runs-on: ubuntu-latest
     defaults:
@@ -58,7 +56,6 @@ jobs:
       - run: npm run lint --if-present
       - run: npm run build --if-present
   pruebas:
-    if: false
     name: Pruebas unitarias y cobertura
     runs-on: ubuntu-latest
     env:
@@ -79,7 +76,6 @@ jobs:
         run: npx vitest run --coverage
 
   e2e:
-    if: false
     name: Pruebas E2E (Playwright)
     runs-on: ubuntu-latest
     
@@ -139,10 +135,8 @@ jobs:
           VITE_API_URL: "http://localhost:3000"
 
   migraciones:
-    if: false
     name: Migraciones y Seeds
     runs-on: ubuntu-latest
-    
     # 2.1: El servicio de PostgreSQL efímero (temporal)
     services:
       postgres:
@@ -183,11 +177,10 @@ jobs:
         run: npx prisma migrate deploy 
 
   deploy-staging:
-    if: false
     name: Deploy a Staging
     # Asegúrate de que los nombres en 'needs' correspondan a los jobs reales de tu pipeline
     #needs: [frontend, backend, pruebas, e2e, migraciones]
-    #if: github.ref == 'refs/heads/main' && github.event_name == 'push'
+    if: github.ref == 'refs/heads/main' && github.event_name == 'push'
     runs-on: ubuntu-latest
     steps:
       - name: Revisar el código
