@@ -18,7 +18,7 @@ function TaskInput({ onAddTask }: TaskInputProps) {
     <div className="task-input">
       <div className="task-input-header">
         <span className="task-icon">📝</span>
-        <small>Asigna tus pendientes del dia</small>
+        <small>Realiza nuevas Tareas</small>
       </div>
       <input
         className="task-input-field"
